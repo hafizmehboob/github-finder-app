@@ -5,7 +5,7 @@ import Spinner from "../layout/Spinner";
 import GithubContext from '../../context/github/GithubContext';
 import { useParams } from "react-router-dom";
 import RepoList from "../repos/RepoList";
-import { getUser, getUserRepos } from "../../context/github/GithubActions";
+import { getUserAndRepos } from "../../context/github/GithubActions";
 
 function User() {
   
@@ -33,11 +33,8 @@ function User() {
   useEffect(() => {
     dispatch({type: 'GET_USERS'});
     const getUserData = async () => {
-      const userData = await getUser(params.login);
-      dispatch({type: 'GET_USER', payload: userData}); 
-
-      const userRepoData = await getUserRepos(params.login);
-      dispatch({type: 'GET_REPOS', payload: userRepoData}); 
+      const userData = await getUserAndRepos(params.login);
+      dispatch({type: 'GET_USER_AND_REPOS', payload: userData}); 
     }
 
     getUserData();
@@ -49,7 +46,7 @@ function User() {
 
   return (
     <>
-    <div className="w-full mx-auto lg:w-10/12">
+    <div className="w-full mx-auto lg:w-10/12"> 
        <div className="mb-4">
         <Link to='/' className="btn btn-ghost">
           Back to Search
